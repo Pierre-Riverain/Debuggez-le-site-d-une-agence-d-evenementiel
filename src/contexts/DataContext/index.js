@@ -1,4 +1,6 @@
 import PropTypes from "prop-types";
+import datas from "./../../datas/events.json";
+
 import {
   createContext,
   useCallback,
@@ -7,37 +9,17 @@ import {
   useState,
 } from "react";
 
-const DataContext = createContext({});
-
-export const api = {
-  loadData: async () => {
-    const json = await fetch("/events.json");
-    return json.json();
-  },
-};
+const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-  const [error, setError] = useState(null);
-  const [data, setData] = useState(null);
-  const getData = useCallback(async () => {
-    try {
-      setData(await api.loadData());
-    } catch (err) {
-      setError(err);
-    }
-  }, []);
-  useEffect(() => {
-    if (data) return;
-    getData();
-  });
+  const [data, setData] = useState(datas);
   
   return (
     <DataContext.Provider
-      // eslint-disable-next-line react/jsx-no-constructed-context-values
-      value={{
-        data,
-        error,
-      }}
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
+    value={{
+      data
+    }}
     >
       {children}
     </DataContext.Provider>
@@ -45,7 +27,7 @@ export const DataProvider = ({ children }) => {
 };
 
 DataProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 }
 
 export const useData = () => useContext(DataContext);

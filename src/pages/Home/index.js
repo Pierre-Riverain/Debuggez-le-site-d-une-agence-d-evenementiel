@@ -1,3 +1,5 @@
+import { useContext } from "react";
+
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
@@ -10,10 +12,11 @@ import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
-import { useData } from "../../contexts/DataContext";
+import DataContext, { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  const {last} = useData()
+  const {data} = useContext(DataContext);
+  let last = data.events[data.events.length - 1];
   return <>
     <header>
       <Menu />
