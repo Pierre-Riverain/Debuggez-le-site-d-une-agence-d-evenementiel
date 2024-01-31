@@ -15,8 +15,13 @@ import Modal from "../../containers/Modal";
 import DataContext, { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  const {data} = useContext(DataContext);
+  /* Correctif pour le chargement des données pour corriger le bug de la carte affichant le dernier événement au niveau du pied de page. */
+  const {data} = useContext(DataContext); /* Remplacement de la méthode useData() par la méthode useContext(DataContext). */
+  data.events.sort((evtA, evtB) => {
+    return new Date(evtA.date) - new Date(evtB.date);
+  });
   let last = data.events[data.events.length - 1];
+  /* Fin du correctif. */
   return <>
     <header>
       <Menu />

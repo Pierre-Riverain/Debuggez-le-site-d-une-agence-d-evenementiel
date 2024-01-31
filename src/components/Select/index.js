@@ -16,7 +16,7 @@ const Select = ({
   const [value, setValue] = useState();
   const [collapsed, setCollapsed] = useState(true);
   const changeValue = (newValue) => {
-    onChange();
+    onChange(newValue); /* Ajout de l'argument : newValue à la fonction onChange afin que le filtre sélectionné soit pris en compte. */
     setValue(newValue);
     setCollapsed(newValue);
   };
