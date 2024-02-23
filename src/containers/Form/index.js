@@ -7,6 +7,22 @@ import Button, { BUTTON_TYPES } from "../../components/Button";
 const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 1000); })
 
 const Form = ({ onSuccess, onError }) => {
+  const log = (msg) => {
+  
+    const obj = {
+      "messages": msg
+    }
+  
+    fetch('http://localhost:3250', {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(obj)
+    }).then(result => {
+      return result;
+    }).catch(error => {
+      console.error(`[LOG-ERROR]`, error);
+    });
+  };
   const [sending, setSending] = useState(false);
   const sendContact = useCallback(
     async (evt) => {
@@ -16,6 +32,7 @@ const Form = ({ onSuccess, onError }) => {
       try {
         await mockContactApi();
         setSending(false);
+        onSuccess();
       } catch (err) {
         setSending(false);
         onError(err);

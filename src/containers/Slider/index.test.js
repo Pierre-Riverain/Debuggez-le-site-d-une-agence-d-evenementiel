@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import Slider from "./index";
-import { api, DataProvider } from "../../contexts/DataContext";
+import { DataProvider } from "../../contexts/DataContext";
 
-const data = {
+/* const data = {
   focus: [
     {
       title: "World economic forum",
@@ -24,12 +24,10 @@ const data = {
       cover: "/images/evangeline-shaw-nwLTVwb7DbU-unsplash1.png",
     },
   ],
-};
+}; */
 
 describe("When slider is created", () => {
   it("a list card is displayed", async () => {
-    window.console.error = jest.fn();
-    api.loadData = jest.fn().mockReturnValue(data);
     render(
       <DataProvider>
         <Slider />

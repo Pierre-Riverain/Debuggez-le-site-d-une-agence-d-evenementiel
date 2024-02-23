@@ -32,7 +32,6 @@ const EventList = () => {
     /* Fin du correctif. */
   });
   const changeType = (evtType) => {
-    log(evtType);
     setCurrentPage(1);
     setType(evtType);
   };

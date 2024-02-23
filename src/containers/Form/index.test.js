@@ -22,7 +22,8 @@ describe("When Events is created", () => {
         })
       );
       await screen.findByText("En cours");
-      await screen.findByText("Envoyer");
+      setTimeout(await screen.findByText("Envoyer"), 1000);
+      
       expect(onSuccess).toHaveBeenCalled();
     });
   });

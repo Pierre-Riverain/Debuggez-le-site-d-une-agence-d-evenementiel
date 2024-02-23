@@ -11,6 +11,9 @@
     top: 0;
     position: absolute;
     transition: opacity 1s;
+    &--none {
+      display: none;
+    }
     &--hide {
       opacity: 0;
     }

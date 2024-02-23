@@ -39,7 +39,7 @@ const data = {
 
 describe("When Events is created", () => {
   it("a list of event card is displayed", async () => {
-    api.loadData = jest.fn().mockReturnValue(data);
+    
     render(
       <DataProvider>
         <Events />
@@ -49,7 +49,6 @@ describe("When Events is created", () => {
   });
   describe("and an error occured", () => {
     it("an error message is displayed", async () => {
-      api.loadData = jest.fn().mockRejectedValue();
       render(
         <DataProvider>
           <Events />
@@ -60,7 +59,6 @@ describe("When Events is created", () => {
   });
   describe("and we select a category", () => {
     it.only("an filtered list is displayed", async () => {
-      api.loadData = jest.fn().mockReturnValue(data);
       render(
         <DataProvider>
           <Events />
