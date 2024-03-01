@@ -6,30 +6,38 @@ import {
 } from "react";
 import datas from "./../../datas/events.json"; /* Importations des données dans le fichier events.json. */
 
-
 const DataContext = createContext(); /* Suppression de l'objet api pour simplifier le code et le chargement des données. */
 
 export const DataProvider = ({ children }) => {
 
-  const datasLoaded = datas;
-
-  let datasSorted = {};
-
+  
+  
   /* Ajout du tri des événements. */
-  datasSorted.events = datasLoaded.events.sort((evtA, evtB) => {
-    return new Date(evtA.date) - new Date(evtB.date);
-  });
-  datasSorted.focus = datasLoaded.focus.sort((evtA, evtB) => {
-    return new Date(evtA.date) - new Date(evtB.date);
-  });
+  
+  const loadData = () => {
+    const datasLoaded = datas;
+    let datasSorted = {};
+    datasSorted.events = datasLoaded.events.sort((evtA, evtB) => {
+      return new Date(evtA.date) - new Date(evtB.date);
+    });
+    datasSorted.focus = datasLoaded.focus.sort((evtA, evtB) => {
+      return new Date(evtA.date) - new Date(evtB.date);
+    });
+    return datasSorted;
+  }
+  
+  const [data, setData] = useState(loadData());
+  
+  /* Ajout d'une méthode pour simuler une erreur lors d'un test. */
+  const isError = () => false;
+  const [error, setError] = useState(isError()); 
 
-  const [data, setData] = useState(datasSorted); 
-
-  return (/* Remplacement de l'état d'erreur par l'état de génération de clés unique.*/
+  return (
     <DataContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
-        data
+        data,
+        error
       }}
     >
       {children}

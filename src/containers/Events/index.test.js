@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { api, DataProvider } from "../../contexts/DataContext";
-import Events from "./index";
+import { act } from "react-dom/test-utils";
+import { DataProvider } from "../../contexts/DataContext";
+import EventList from "./index";
 
 const data = {
   events: [
@@ -37,33 +38,46 @@ const data = {
   ],
 };
 
+
 describe("When Events is created", () => {
   it("a list of event card is displayed", async () => {
-    
-    render(
-      <DataProvider>
-        <Events />
-      </DataProvider>
-    );
-    await screen.findByText("avril");
+
+    const useData = jest.fn().mockReturnValue(data);
+    await act(async () => {
+      render(
+        <DataProvider>
+          <EventList />
+        </DataProvider>
+      );
+    });
+    await screen.findAllByText("avril");
   });
   describe("and an error occured", () => {
     it("an error message is displayed", async () => {
-      render(
-        <DataProvider>
-          <Events />
+
+      await act(async () => {
+        const loadData = jest.fn().mockReturnValue(null);
+        const isError = jest.fn().mockReturnValue(true)
+        render(<DataProvider>
+          <EventList />
         </DataProvider>
-      );
+        );
+      });
       expect(await screen.findByText("An error occured")).toBeInTheDocument();
     });
   });
   describe("and we select a category", () => {
-    it.only("an filtered list is displayed", async () => {
-      render(
-        <DataProvider>
-          <Events />
+    it("an filtered list is displayed", async () => {
+
+      await act(async () => {
+        const loadData = jest.fn().mockReturnValue(data);
+        render(<DataProvider>
+          <EventList />
         </DataProvider>
-      );
+        );
+      });
+      const eventList = screen.getByTestId("eventList");
+
       await screen.findByText("Forum #productCON");
       fireEvent(
         await screen.findByTestId("collapse-button-testid"),
@@ -87,15 +101,18 @@ describe("When Events is created", () => {
 
   describe("and we click on an event", () => {
     it("the event detail is displayed", async () => {
-      api.loadData = jest.fn().mockReturnValue(data);
-      render(
-        <DataProvider>
-          <Events />
-        </DataProvider>
-      );
+
+      const useData = jest.fn().mockReturnValue(data);
+      await act(async () => {
+        render(
+          <DataProvider>
+            <EventList />
+          </DataProvider>
+        );
+      });
 
       fireEvent(
-        await screen.findByText("Conférence #productCON"),
+        await screen.getAllByText("Conférence #productCON")[0],
         new MouseEvent("click", {
           cancelable: true,
           bubbles: true,

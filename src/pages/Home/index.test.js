@@ -1,7 +1,8 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { findAllByText, fireEvent, render, screen } from "@testing-library/react";
 import Home from "./index";
 import data from "../../datas/events.json";
 import { DataProvider } from "../../contexts/DataContext";
+import Page from "./index";
 
 const useContext = jest.fn().mockReturnValue(data);
 
@@ -40,15 +41,39 @@ describe("When Form is created", () => {
 
 describe("When a page is created", () => {
   it("a list of events is displayed", () => {
-    // to implement
+    render(
+      <DataProvider>
+        <Home/>
+      </DataProvider>
+    )
+
+    expect(screen.getByTestId("eventList")).toBeDefined();
   })
   it("a list a people is displayed", () => {
-    // to implement
+    render(
+      <DataProvider>
+        <Home/>
+      </DataProvider>
+    )
+
+    expect(screen.getByTestId("teamList")).toBeDefined();
   })
   it("a footer is displayed", () => {
-    // to implement
+    render(
+      <DataProvider>
+        <Home/>
+      </DataProvider>
+    )
+
+    expect(screen.getByTestId("footer")).toBeDefined();
   })
   it("an event card, with the last event, is displayed", () => {
-    // to implement
+    render(
+      <DataProvider>
+        <Home/>
+      </DataProvider>
+    )
+
+    expect(screen.getByTestId("lastEvent")).toBeDefined();
   })
 });

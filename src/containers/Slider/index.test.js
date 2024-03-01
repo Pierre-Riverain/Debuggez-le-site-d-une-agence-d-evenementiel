@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import Slider from "./index";
 import { DataProvider } from "../../contexts/DataContext";
 
-/* const data = {
+const data = {
   focus: [
     {
       title: "World economic forum",
@@ -24,7 +24,7 @@ import { DataProvider } from "../../contexts/DataContext";
       cover: "/images/evangeline-shaw-nwLTVwb7DbU-unsplash1.png",
     },
   ],
-}; */
+};
 
 describe("When slider is created", () => {
   it("a list card is displayed", async () => {

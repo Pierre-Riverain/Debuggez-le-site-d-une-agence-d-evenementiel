@@ -13,12 +13,12 @@ const EventList = () => {
   const { data, error } = useData();
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
+
   const filteredEvents = (
     (!type
       ? data.events
       : data.events) || []
   ).filter((event, index) => {
-    /* Ajout de ce bloc de code afin que le filtre sur les évènements réalisés par 724events. */
     if (type !== null && type !== undefined) {
       if (event.type === type) {
         return true;
@@ -29,7 +29,6 @@ const EventList = () => {
           return true;
     }
     return false;
-    /* Fin du correctif. */
   });
   const changeType = (evtType) => {
     setCurrentPage(1);
@@ -39,7 +38,7 @@ const EventList = () => {
   const typeList = new Set(data.events.map((event) => event.type));
   return (
     <>
-      {error && <div>An error occured</div>}
+      {(error || data === undefined) && <div>An error occured</div>}
       {data === null ? (
         "loading"
       ) : (
@@ -49,7 +48,7 @@ const EventList = () => {
             selection={Array.from(typeList)}
             onChange={(value) => (value ? changeType(value) : changeType(null))}
           />
-          <div id="events" className="ListContainer">
+          <div id="events" className="ListContainer" data-testid="eventList">
             {filteredEvents.map((event) => (
               <Modal key={event.id} Content={<ModalEvent event={event} />}>
                 {({ setIsOpened }) => (
