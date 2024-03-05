@@ -12,12 +12,12 @@ import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
-import DataContext, { useData } from "../../contexts/DataContext";
+import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
   /* Correctif pour le chargement des données pour corriger le bug de la carte affichant le dernier événement au niveau du pied de page. */
-  const {data} = useData(); 
-  let last = data.events[data.events.length - 1];
+  const { data, error } = useData();
+  let last = data?.events[data?.events?.length - 1];
   /* Fin du correctif. */
   return <>
     <header>

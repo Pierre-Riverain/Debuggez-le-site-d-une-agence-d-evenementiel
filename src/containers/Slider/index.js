@@ -7,7 +7,7 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
-  const byDateDesc = data.focus;
+  const byDateDesc = data?.focus;
 
   const nextCard = () => {
     if (byDateDesc) {
@@ -28,14 +28,14 @@ const Slider = () => {
     nextCard();
   });
 
-  const updatedByDateDesc = byDateDesc.map(evt => ({
+  const updatedByDateDesc = byDateDesc?.map(evt => ({
     ...evt,
     monthName: getMonth(new Date(evt.date))
   }));
 
   return (
     <div className="SlideCardList">
-      {updatedByDateDesc.map((evt, idx) => (
+      {updatedByDateDesc?.map((evt, idx) => (
         <div key={evt.id} className={`SlideCard SlideCard--${index === idx ? "display" : "hide"}`}>
           <img src={evt.cover} alt="forum" />
           <div className="SlideCard__descriptionContainer">
@@ -49,7 +49,7 @@ const Slider = () => {
       ))}
       <div className="SlideCard__paginationContainer">
         <div className="SlideCard__pagination">
-          {updatedByDateDesc.map(evt => (
+          {updatedByDateDesc?.map(evt => (
             <input
               key={`radio-button-${evt.id}`}
               type="radio"

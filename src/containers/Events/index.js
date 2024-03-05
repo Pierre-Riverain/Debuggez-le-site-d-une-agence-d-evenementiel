@@ -16,8 +16,8 @@ const EventList = () => {
 
   const filteredEvents = (
     (!type
-      ? data.events
-      : data.events) || []
+      ? data?.events
+      : data?.events) || []
   ).filter((event, index) => {
     if (type !== null && type !== undefined) {
       if (event.type === type) {
@@ -35,10 +35,10 @@ const EventList = () => {
     setType(evtType);
   };
   const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
-  const typeList = new Set(data.events.map((event) => event.type));
+  const typeList = new Set(data?.events.map((event) => event.type));
   return (
     <>
-      {(error || data === undefined) && <div>An error occured</div>}
+      {(error) && <div>An error occured</div>}
       {data === null ? (
         "loading"
       ) : (

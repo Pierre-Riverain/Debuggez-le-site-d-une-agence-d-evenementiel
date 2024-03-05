@@ -1,10 +1,6 @@
-import { findAllByText, fireEvent, render, screen } from "@testing-library/react";
+import { findAllByText, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Home from "./index";
-import data from "../../datas/events.json";
 import { DataProvider } from "../../contexts/DataContext";
-import Page from "./index";
-
-const useContext = jest.fn().mockReturnValue(data);
 
 describe("When Form is created", () => {
   it("a list of fields card is displayed", async () => {
@@ -42,12 +38,14 @@ describe("When Form is created", () => {
 describe("When a page is created", () => {
   it("a list of events is displayed", () => {
     render(
+      
       <DataProvider>
         <Home/>
       </DataProvider>
     )
-
-    expect(screen.getByTestId("eventList")).toBeDefined();
+    waitFor(() => {
+      expect(screen.getByText("Conférence &Co-Responsable")).toBeInTheDocument();
+    })
   })
   it("a list a people is displayed", () => {
     render(
@@ -56,7 +54,7 @@ describe("When a page is created", () => {
       </DataProvider>
     )
 
-    expect(screen.getByTestId("teamList")).toBeDefined();
+    expect(screen.getByText("Isabelle")).toBeInTheDocument();
   })
   it("a footer is displayed", () => {
     render(
@@ -65,7 +63,7 @@ describe("When a page is created", () => {
       </DataProvider>
     )
 
-    expect(screen.getByTestId("footer")).toBeDefined();
+    expect(screen.getByText("contact@724events.com")).toBeInTheDocument();
   })
   it("an event card, with the last event, is displayed", () => {
     render(

@@ -1,43 +1,42 @@
 import PropTypes from "prop-types";
 import {
   createContext,
+  useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
-import datas from "./../../datas/events.json"; /* Importations des données dans le fichier events.json. */
 
-const DataContext = createContext(); /* Suppression de l'objet api pour simplifier le code et le chargement des données. */
+const DataContext = createContext({});
+
+export const api = {
+  loadData: async () => {
+    const json = await fetch("/events.json");
+    return json.json();
+  },
+};
 
 export const DataProvider = ({ children }) => {
-
+  const [error, setError] = useState(null);
+  const [data, setData] = useState(null);
+  const getData = useCallback(async () => {
+    try {
+      setData(await api.loadData());
+    } catch (err) {
+      setError(err);
+    }
+  }, []);
+  useEffect(() => {
+    if (data) return;
+    getData();
+  });
   
-  
-  /* Ajout du tri des événements. */
-  
-  const loadData = () => {
-    const datasLoaded = datas;
-    let datasSorted = {};
-    datasSorted.events = datasLoaded.events.sort((evtA, evtB) => {
-      return new Date(evtA.date) - new Date(evtB.date);
-    });
-    datasSorted.focus = datasLoaded.focus.sort((evtA, evtB) => {
-      return new Date(evtA.date) - new Date(evtB.date);
-    });
-    return datasSorted;
-  }
-  
-  const [data, setData] = useState(loadData());
-  
-  /* Ajout d'une méthode pour simuler une erreur lors d'un test. */
-  const isError = () => false;
-  const [error, setError] = useState(isError()); 
-
   return (
     <DataContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         data,
-        error
+        error,
       }}
     >
       {children}
@@ -46,10 +45,9 @@ export const DataProvider = ({ children }) => {
 };
 
 DataProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 
 export const useData = () => useContext(DataContext);
 
 export default DataContext;
-

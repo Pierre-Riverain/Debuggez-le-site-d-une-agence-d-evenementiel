@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
-import { DataProvider } from "../../contexts/DataContext";
+import { DataProvider, api } from "../../contexts/DataContext";
 import EventList from "./index";
 
 const data = {
@@ -42,8 +42,8 @@ const data = {
 describe("When Events is created", () => {
   it("a list of event card is displayed", async () => {
 
-    const useData = jest.fn().mockReturnValue(data);
     await act(async () => {
+      api.loadData = jest.fn().mockReturnValue(data);
       render(
         <DataProvider>
           <EventList />
@@ -54,10 +54,9 @@ describe("When Events is created", () => {
   });
   describe("and an error occured", () => {
     it("an error message is displayed", async () => {
-
+      
       await act(async () => {
-        const loadData = jest.fn().mockReturnValue(null);
-        const isError = jest.fn().mockReturnValue(true)
+        api.loadData = jest.fn().mockRejectedValue(data);
         render(<DataProvider>
           <EventList />
         </DataProvider>
@@ -70,7 +69,7 @@ describe("When Events is created", () => {
     it("an filtered list is displayed", async () => {
 
       await act(async () => {
-        const loadData = jest.fn().mockReturnValue(data);
+        api.loadData = jest.fn().mockReturnValue(data);
         render(<DataProvider>
           <EventList />
         </DataProvider>
@@ -102,7 +101,7 @@ describe("When Events is created", () => {
   describe("and we click on an event", () => {
     it("the event detail is displayed", async () => {
 
-      const useData = jest.fn().mockReturnValue(data);
+      api.loadData = jest.fn().mockReturnValue(data);
       await act(async () => {
         render(
           <DataProvider>
