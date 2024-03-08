@@ -21,7 +21,8 @@ export const DataProvider = ({ children }) => {
   const [data, setData] = useState(null);
   const getData = useCallback(async () => {
     try {
-      setData(await api.loadData());
+      const datas = await api.loadData();
+      setData(datas);
     } catch (err) {
       setError(err);
     }
@@ -36,7 +37,7 @@ export const DataProvider = ({ children }) => {
       // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         data,
-        error,
+        error
       }}
     >
       {children}

@@ -1,5 +1,3 @@
-import { useContext } from "react";
-
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
@@ -15,9 +13,11 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  /* Correctif pour le chargement des données pour corriger le bug de la carte affichant le dernier événement au niveau du pied de page. */
-  const { data, error } = useData();
-  let last = data?.events[data?.events?.length - 1];
+  /* Ajout du code ci-dessous afin de trier les évènements afin d'afficher la dernière réalisé en date pour le pied de page. */
+  const { data } = useData();
+  const last = data?.events.sort((evtA, evtB) => {
+    return new Date(evtB.date) - new Date(evtA.date);
+  })[0];
   /* Fin du correctif. */
   return <>
     <header>
