@@ -13,12 +13,7 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  /* Ajout du code ci-dessous afin de trier les évènements afin d'afficher la dernière réalisé en date pour le pied de page. */
-  const { data } = useData();
-  const last = data?.events.sort((evtA, evtB) => {
-    return new Date(evtB.date) - new Date(evtA.date);
-  })[0];
-  /* Fin du correctif. */
+  const { last } = useData();
   return <>
     <header>
       <Menu />
@@ -27,7 +22,7 @@ const Page = () => {
       <section className="SliderContainer">
         <Slider />
       </section>
-      <section className="ServicesContainer">
+      <section className="ServicesContainer" id="nos-services">
         <h2 className="Title">Nos services</h2>
         <p>Nous organisons des événements sur mesure partout dans le monde</p>
         <div className="ListContainer">
@@ -56,11 +51,11 @@ const Page = () => {
           </ServiceCard>
         </div>
       </section>
-      <section className="EventsContainer">
+      <section className="EventsContainer" id="nos-realisations">
         <h2 className="Title">Nos réalisations</h2>
         <EventList />
       </section>
-      <section className="PeoplesContainer">
+      <section className="PeoplesContainer" id="notre-equipe">
         <h2 className="Title">Notre équipe</h2>
         <p>Une équipe d’experts dédiés à l’ogranisation de vos événements</p>
         <div className="ListContainer" data-testid="teamList">
